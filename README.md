@@ -17,7 +17,7 @@ make
 sudo make install
 ```
 
-### Connect wiimote as Bluetooth device
+### Connect Wii Remote as Bluetooth device
 
 ```
 $ bluetoothctl
