@@ -1,15 +1,25 @@
-import os
+import sys
 import time
+import logging
 import xwiimote
+
+
+def init_logging(name):
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(name)
+    return logger
 
 
 def checked(func):
     def checked_call(self, *args, **kwargs):
-        print("checked " + func.__name__)
+        ret = None
+
         try:
-            func(self, *args, **kwargs)
+            ret = func(self, *args, **kwargs)
         except SystemError as e:
             print(e)
+
+        return ret
 
     return checked_call
 
@@ -18,13 +28,6 @@ class Controller(object):
     def __init__(self, dev):
         self.dev = dev
         self.dev.open(self.dev.available() | xwiimote.IFACE_WRITABLE)
-
-    @staticmethod
-    def action(func, *args, **kwargs):
-        try:
-            func(*args, **kwargs)
-        except SystemError as e:
-            print(e)
 
     @checked
     def get_battery_level(self):
@@ -60,16 +63,25 @@ def get_iface(ent):
 
 
 def main():
+    logger = init_logging(sys.argv[0])
+    msecs = 500
+
     ent = get_first_wiimote()
     if not ent:
-        os._exit(1)
+        sys.exit(1)
 
     dev = get_iface(ent)
     if not dev:
-        os._exit(1)
+        sys.exit(1)
 
+    logger.info("Initializing controller")
     c = Controller(dev=dev)
-    c.rumble(5000)
+
+    logger.info("Rumbling for {msecs} millseconds".format(msecs=msecs))
+    c.rumble(msecs)
+
+    battery = c.get_battery_level()
+    logger.info("Battery at {lvl}%".format(lvl=battery))
 
 
 if __name__ == '__main__':
