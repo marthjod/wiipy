@@ -1,4 +1,4 @@
-### build xwiimote
+### Build [xwiimote](https://github.com/dvdhrm/xwiimote)
 
 - dependencies: [ref](https://github.com/dvdhrm/xwiimote-bindings/pull/8)
     - swig
@@ -9,7 +9,7 @@
 - `./configure --prefix=/usr` **or** append `LD_LIBRARY_PATH` later on ([ref](https://askubuntu.com/questions/633949/failed-to-build-xwiimote-bindings))
 
 
-### build xwiimote-bindings
+### Build [xwiimote-bindings](https://github.com/dvdhrm/xwiimote-bindings)
 
 ```
 ./autogen.sh
@@ -17,7 +17,21 @@ make
 sudo make install
 ```
 
-### use xwiimote python binding
+### Connect wiimote as Bluetooth device
+
+```
+$ bluetoothctl
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent 
+[bluetooth]# scan on
+[bluetooth]# pair <MAC>
+[bluetooth]# connect <MAC>
+...
+Connection successful
+```
+
+### Use xwiimote Python binding
 
 ```bash
 # optional
