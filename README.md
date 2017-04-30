@@ -22,5 +22,5 @@ sudo make install
 ```bash
 # optional
 # export LD_LIBRARY_PATH=/usr/local/lib
-python examples/python/xwiimote_test.py
+python test.py [--debug]
 ```
